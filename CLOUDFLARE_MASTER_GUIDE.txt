@@ -1,0 +1,79 @@
+[ CLOUDFLARE HOSTING MASTER GUIDE ]
+
+This guide covers the two best ways to host applications using Cloudflare:
+1. Cloudflare Pages: For Static Websites (HTML, React, Next.js, Portfolios).
+2. Cloudflare Tunnel: For Self-Hosted Servers (Raspberry Pi, Local Backend, APIs).
+
+============================================================
+PART 1: CLOUDFLARE PAGES (Static Hosting)
+============================================================
+Use this for: Your Frontend code, React apps, or simple HTML/CSS sites. 
+Pros: Free, Fast, No server maintenance required.
+
+[ PREREQUISITES ]
+- Your code must be uploaded to a GitHub repository.
+
+[ STEP-BY-STEP SETUP ]
+1. Log in to Cloudflare Dashboard.
+2. Go to "Compute (Workers & Pages)" -> "Create an application" -> "Pages".
+3. Click "Connect to Git".
+4. Select your GitHub Repository.
+5. configure Build Settings:
+   - Framework Preset: 
+     * Use "None" for basic HTML.
+     * Use "Vite/React" or "Next.js" for apps.
+   - Build Command: Usually "npm run build".
+   - Output Directory: Usually "dist" or "build".
+6. Click "Save and Deploy".
+
+[ ADDING DOMAIN ]
+1. Go to your Pages project in Cloudflare.
+2. Click "Custom Domains" -> "Set up a custom domain".
+3. Type your domain (e.g., www.indianiiot.com).
+4. Cloudflare handles the rest automatically.
+
+============================================================
+PART 2: CLOUDFLARE TUNNEL (Self-Hosting)
+============================================================
+Use this for: Backends, Databases, Raspberry Pis, or servers running at home.
+
+[ PREREQUISITES ]
+- A generic PC/Server/Pi running your app (e.g. localhost:8080).
+- A Cloudflare Account with your Domain added.
+
+[ STEP 1: OPEN ZERO TRUST ]
+1. Go to Cloudflare Dashboard.
+2. Click "Zero Trust" (Left Sidebar).
+3. Go to "Networks" -> "Tunnels".
+
+[ STEP 2: CREATE TUNNEL ]
+1. Click "Create a Tunnel".
+2. Select "Cloudflared" type.
+3. Name it (e.g. pi-tunnel).
+
+[ STEP 3: INSTALL CONNECTOR ]
+- For Raspberry Pi (Linux):
+  1. Select "Debian".
+  2. Copy the installation command (starts with "sudo cloudflared...").
+  3. Run it in your Pi's terminal.
+- For Windows:
+  1. Select "Windows".
+  2. Download the installer.
+  3. Run the command in CMD (Administrator).
+
+[ STEP 4: ROUTE TRAFFIC (Public Hostname) ]
+1. Once Connected, click "Next" or "Configure".
+2. Click "Public Hostname" -> "Add a public hostname".
+3. Fill details:
+   - Domain: Choose your domain (indianiiot.com).
+   - Service Type: HTTP.
+   - Service URL: localhost:YOUR_PORT (e.g. localhost:8080).
+4. Save.
+
+============================================================
+CHEAT SHEET
+============================================================
+- Static Website (HTML/JS)?  -> Use Cloudflare PAGES.
+- React/Next.js App?         -> Use Cloudflare PAGES.
+- Python/Node.js Server?     -> Use Cloudflare TUNNEL.
+- Raspberry Pi Project?      -> Use Cloudflare TUNNEL.
